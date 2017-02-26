@@ -8,6 +8,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 console.log('Server online');
 
-app.use('/operations', operations);
+app.use('/operations', operations); //routing to the operations file
 
 app.listen(5000);
