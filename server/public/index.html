@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Weekend 3 Calculator</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="jquery.js" charset="utf-8"></script>
     <script src="client.js" charset="utf-8"></script>
@@ -10,39 +11,41 @@
   <body>
     <h1>Calculator</h1>
 
-    <input id="firstNumber">
-    <span id="display"></span>
-    <input id="secondNumber">
+    <!-- <input id="firstNumber"> -->
+    <div class="display"></div>
+    <!-- <input id="secondNumber"> -->
+
 
     <div class="firstRow">
       <button class ="number">7</button>
       <button class ="number">8</button>
       <button class ="number">9</button>
-      <button class="operator" id="divide">&#247;</button>
+      <button class="operator" value = "/" id="divide">&#247;</button>
     </div>
 
     <div class="secondRow">
       <button class ="number">4</button>
       <button class ="number">5</button>
       <button class ="number">6</button>
-      <button class="operator" id="multiply">&#215;</button>
+      <button class="operator" value = "*" id="multiply">&#215;</button>
     </div>
 
     <div class="thirdRow">
       <button class ="number">1</button>
       <button class ="number">2</button>
       <button class ="number">3</button>
-      <button class="operator" id="subtract">-</button>
+      <button class="operator" value = "-" id="subtract">-</button>
     </div>
 
     <div class="fourthRow">
+      <button id="clear">C</button>
       <button class ="number">0</button>
-      <button id="decimal">.</button>
+      <!-- <button id="decimal">.</button> -->
       <button id="getResult">=</button>
-      <button class="operator" id="add">+</button>
+      <button class="operator" value = "+" id="add">+</button>
     </div>
 
-    <button id="clear">Clear</button>
+
 
 
     <h2>Result: <span id="result"></span></h2>

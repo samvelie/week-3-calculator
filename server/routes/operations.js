@@ -4,10 +4,8 @@ var router = express.Router();
 var result = {result: 0};
 
 router.get('/', function(req,res){
-  res.send(result);
-  res.sendStatus(200);
+  res.status(200).send(result);
 })
-
 
 router.post('/add', function(req,res){
   var x = parseInt(req.body.x);
@@ -33,8 +31,12 @@ router.post('/multiply', function(req,res){
 router.post('/divide', function(req,res){
   var x = parseInt(req.body.x);
   var y = parseInt(req.body.y);
-  result.result = x / y;
-  res.sendStatus(200);
+  if(y==0){
+    res.status(500).send('Divide by zero error');
+  } else {
+    result.result = x / y;
+    res.sendStatus(200);
+  }
 })
 
 module.exports = router;

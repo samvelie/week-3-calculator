@@ -1,74 +1,109 @@
-console.log('client.js sourced');
-
-var operation;
-var x; //first number
-var y; //second number
-
-var aNumber = '';
-var bNumber = '';
-var operatorClickedYet = false;
+var x = '';
+var y = '';
+var operation = '';
+var result = '';
+var numberClicked = false;
+var operatorClicked = false;
+var equalsClicked = false;
 
 $(document).ready(function(){
-  console.log('jquery sourced');
+  $('.number').on('click', function(){
+    var thisNum = $(this).text();
+    if(equalsClicked){
+      $('.display').text(thisNum);
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
+    } else if(operatorClicked){
+      y+= thisNum;
+      $('.display').text(y);
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
+    } else {
+      x += thisNum;
 
-  //listener on operation button click
-  //will take in x and y from both buttons and type of operations
-  //will send this information to the server to get calculated (post)
-  //will retrieve the result of this operation (get) and show in DOM this result
-  $('.operator').on('click', function(){
-    operation = $(this).attr('id');
-    console.log('operation:', operation);
-    operatorClickedYet = true;
-    $('#display').text($(this).text()); //this would show the operator
-    var currentNumber = $('#display').text();
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
+      $('.display').text(x);
+    }
+    numberClicked = true;
+    equalsClicked = false;
   });
 
-  $('.number').on('click', function(){
-    if(operatorClickedYet){
-        bNumber += $(this).text();
-        $('#secondNumber').val(bNumber);
-    } else {
-      aNumber += $(this).text();
-      $('#firstNumber').val(aNumber);
+  $('.operator').on('click', function(){
+    var thisOperator = $(this).attr('id');
+    if(numberClicked == false && equalsClicked==false){
+      //don't do anything
+    } else if(operatorClicked && numberClicked){
+      var cheating = $('#'+operation).attr('value');
+      x = eval(parseInt(x) + cheating + parseInt(y));
+      y = '';
+      operation = thisOperator;
+      operatorClicked = true;
+      numberClicked = false;
+      $('.display').text(x);
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
+    } else if(numberClicked){
+      operation = thisOperator;
+      operatorClicked = true;
+      numberClicked =false;
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
+    } else if(equalsClicked){
+      operation = thisOperator;
+      y = '';
+      operatorClicked = true;
+      numberClicked = false;
+      equalsClicked = false;
+      console.log('x= ' + x + ' opr= ' + operation + ' y= ' + y);
     }
+
   })
 
   $('#getResult').on('click', function(){
-    console.log('button clicked');
-    var x = $('#firstNumber').val();
-    var y = $('#secondNumber').val();
+    mathAtServer(x, y, operation);
 
-    var mathObject = {};
+    equalsClicked = true;
+    numberClicked = false;
+    operatorClicked = false;
 
-    mathObject.x = x;
-    mathObject.y = y;
-    mathObject.operation = operation;
-    console.log('math object:', mathObject);
-
-    $.ajax({
-      type: 'POST',
-      url: '/operations/' + operation,
-      data: mathObject,
-      success: function(response){
-        console.log(response);
-      }
-    });
-
-    $.ajax({
-      type: 'GET',
-      url: '/operations',
-      success: function(data){
-        $('#result').text(data.result);
-      }
-    })
+    console.log('x= ' + x + ' op= ' + operation + ' y= ' + y);
   })
 
   $('#clear').on('click', function(){
-    $('#firstNumber').val('');
-    $('#secondNumber').val('');
-    $('#result').text('');
-    aNumber = '';
-    bNumber = '';
-    operatorClickedYet = false;
-  })
-});
+    $('.display').text('');
+    x = '';
+    y = '';
+    operation = '';
+    result = '';
+    numberClicked = false;
+    operatorClicked = false;
+    equalsClicked = false;
+  });
+
+}); // end document ready
+
+function mathAtServer(num1, num2, operator){
+  var mathObject = {};
+  mathObject.x = num1;
+  mathObject.y = num2;
+  mathObject.operation = operator;
+  console.log('mathObject', mathObject);
+  $.ajax({
+    type: 'POST',
+    url: '/operations/' + operator,
+    data: mathObject,
+    success: function(response){
+      console.log(response);
+    },
+    error: function(response){
+      alert(response);
+    }
+  });
+
+  $.ajax({
+    type: 'GET',
+    url: '/operations',
+    success: function(data){
+      result = data.result;
+      $('.display').text(result);
+      x = result;
+      // y = '';
+    }
+  });
+}

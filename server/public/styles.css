@@ -1,0 +1,21 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.display {
+  background-color: DarkSeaGreen;
+  height: 20px;
+  width: 144px;
+  margin: 3px;
+}
+
+input {
+  border: none;
+}
+
+button {
+  width: 25px;
+  height: auto;
+  background-color: DarkTurquoise;
+
+}
