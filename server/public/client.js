@@ -2,7 +2,7 @@
 var x = '';
 var y = '';
 var operation = '';
-var result = '';  //this variable could probably be discarded
+var result = '';  //I need to decide whether this variable is helpful or not
 
 //These booleans help decide what to do on each button click depending on the order buttons were clicked and get changed depending on what conditions were met
 var numberClicked = false;
@@ -51,6 +51,8 @@ $(document).ready(function(){
       console.log('equals clicked before operator');
     }
 
+    $('.display').fadeOut(50);
+    $('.display').fadeIn(50);
     y = ''; //resets y to nothing to prepare for a number being clicked next
     operatorClicked = true;
     decimalNotClicked = true;
@@ -64,7 +66,7 @@ $(document).ready(function(){
     } else if(y ==='' || operation === ''){
       displayThis(x);
     } else {
-      mathAtServer(x, y, operation);
+      mathAtServer(x, y, operation); //this is where math goes to the server and comes back
     }
 
     equalsClicked = true;

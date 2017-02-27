@@ -1,50 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Weekend 3 Calculator</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="styles.css">
-    <script src="jquery.js" charset="utf-8"></script>
-    <script src="client.js" charset="utf-8"></script>
-  </head>
-  <body>
-    <h1>Calculator</h1>
+<head>
+  <meta charset="utf-8">
+  <title>Weekend 3 Calculator</title>
+  <script src="vendors/jquery.js" charset="utf-8"></script>
+  <script src="client.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="vendors/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container col-xs-12">
+    <h1 class="col-xs-12 heading">Calculator</h1>
 
-    <!-- <input id="firstNumber"> -->
-    <div class="display"></div>
-    <!-- <input id="secondNumber"> -->
+    <h2 class="col-xs-12">
+      <div class="screen col-xs-12"><span class="display"></span></div>
+    </h2>
 
-
-    <div class="firstRow">
-      <button class ="number">7</button>
-      <button class ="number">8</button>
-      <button class ="number">9</button>
-      <button class="operator" value = "/" id="divide">&#247;</button>
+    <div class="col-xs-12">
+      <button class ="number btn-default col-xs-3">7</button>
+      <button class ="number btn-default col-xs-3">8</button>
+      <button class ="number btn-default col-xs-3">9</button>
+      <button class="operator btn-warning col-xs-3" value = "/" id="divide">&#247;</button>
     </div>
 
-    <div class="secondRow">
-      <button class ="number">4</button>
-      <button class ="number">5</button>
-      <button class ="number">6</button>
-      <button class="operator" value = "*" id="multiply">&#215;</button>
+    <div class="col-xs-12">
+      <button class ="number btn-default col-xs-3">4</button>
+      <button class ="number btn-default col-xs-3">5</button>
+      <button class ="number btn-default col-xs-3">6</button>
+      <button class="operator btn-warning col-xs-3" value = "*" id="multiply">&#215;</button>
     </div>
 
-    <div class="thirdRow">
-      <button class ="number">1</button>
-      <button class ="number">2</button>
-      <button class ="number">3</button>
-      <button class="operator" value = "-" id="subtract">-</button>
+    <div class="col-xs-12">
+      <button class ="number btn-default col-xs-3">1</button>
+      <button class ="number btn-default col-xs-3">2</button>
+      <button class ="number btn-default col-xs-3">3</button>
+      <button class="operator btn-warning col-xs-3" value = "-" id="subtract">-</button>
     </div>
 
-    <div class="fourthRow">
-      <button id="clear">C</button>
-      <button class ="number">0</button>
-      <button id="decimal">.</button>
-      <button class="operator" value = "+" id="add">+</button>
+    <div class="col-xs-12">
+      <button class="btn-danger col-xs-3" id="clear">C</button>
+      <button class ="number btn-default col-xs-3">0</button>
+      <button class ="btn-default col-xs-3" id="decimal">.</button>
+      <button class="operator btn-warning col-xs-3" value = "+" id="add">+</button>
     </div>
 
-    <button id="getResult">=</button>
+    <div class="col-xs-12">
+      <button class= "btn-primary col-xs-6" id="getResult">=</button>
+    </div>
+  </div>
 
-  </body>
+</body>
 </html>
