@@ -2,7 +2,7 @@
 var x = '';
 var y = '';
 var operation = '';
-var result = '';  //I need to decide whether this variable is helpful or not
+var result = '';  //keeping this variable for later experimentation
 
 //These booleans help decide what to do on each button click depending on the order buttons were clicked and get changed depending on what conditions were met
 var numberClicked = false;
@@ -13,6 +13,7 @@ var decimalNotClicked = true;
 
 $(document).ready(function(){
   displayThis(0);  // this 0 helps indicate the calculator is on
+
   $('.number').on('click', function(){
     var thisNum = $(this).text();  //grabs text of clicked button and stores it
     if(equalsClicked &&  x!== ''){  //when the equal button has retrieved a result, clicking a number will be read as the beginning of a new operation
@@ -28,7 +29,7 @@ $(document).ready(function(){
     }
     numberClicked = true;
     equalsClicked = false;
-  });
+  }); //end number click listener function
 
   $('.operator').on('click', function(){
     var thisOperator = $(this).attr('id'); //grabs the id which is used to find the correct server route
@@ -36,17 +37,22 @@ $(document).ready(function(){
     if(numberClicked == false && equalsClicked==false && x==''){ //this condition should only work when the operator button is being clicked before other buttons, when x has no value
       x = 0;
       operation = thisOperator; //I would put this assignment automatically at the button click but I need it to happen after some calculating in the next condition
-    } else if(operatorClicked && numberClicked){ //this specific conditional responds to strings of inputs like 22-11+4*4, evaluating the result of the previous two numbers and the chosen operation. I struggled to get this check to work with a server call/response and have this current local fix.
-      var cheating = $('#'+operation).attr('value'); //this obtains the operation symbol that JavaScript can evaluate
-      x = eval(parseFloat(x) + cheating + parseFloat(y)); //this makes x the result of this calculation
+    }
+
+    /*This entire else if can be removed and the calculator will still have basic function. This specific conditional responds to strings of inputs like 22-11+4*4, evaluating the result of the previous two numbers and the chosen operation. This will need to be replaced by a server call, perhaps using an array of user inputs? */
+    else if(operatorClicked && numberClicked){
+      var local = $('#'+operation).attr('value'); //this obtains the operation symbol that JavaScript can evaluate
+      x = eval(parseFloat(x) + local + parseFloat(y)); //this makes x the result of this calculation
       operation = thisOperator; //now resets the operation variable for future operations
       displayThis(x);
-    } else if(numberClicked){
+    } //end experimental else if
+
+    else if(numberClicked){
       operation = thisOperator;
     } else if(equalsClicked){
       operation = thisOperator;
       equalsClicked = false;
-    }
+    };
 
     //To make it feel like the calculator is thinking
     $('.display').fadeOut(50);
@@ -56,7 +62,7 @@ $(document).ready(function(){
     operatorClicked = true;
     decimalNotClicked = true;
     numberClicked = false;
-  })
+  })//end operator click listener function
 
   $('#getResult').on('click', function(){
     if(x === ''){
@@ -75,8 +81,7 @@ $(document).ready(function(){
     numberClicked = false;
     operatorClicked = false;
     decimalNotClicked = false; //making this false here to prevent from modifying the result with decimals
-
-  })
+  })//end equals button listener function
 
   //This function makes the calculator like new
   $('#clear').on('click', function(){
@@ -89,7 +94,7 @@ $(document).ready(function(){
     operatorClicked = false;
     equalsClicked = false;
     decimalNotClicked = true;
-  });
+  });//end clear button listener function
 
   //Allows for decimals to be added once per number
   $('#decimal').on('click', function(){
@@ -111,15 +116,14 @@ $(document).ready(function(){
       }
     }
     decimalNotClicked = false;
-  })
-
+  })//end decimal button listener function
 }); // end document ready
 
 function displayThis(string){
   $('.display').text(string);
 }
 
-function mathAtServer(num1, num2, operator){
+function mathAtServer(num1, num2, operator){ //function does not necessarily need params, kept here with the thought they might be useful for later experimentation
   var mathObject = {};
   mathObject.x = num1;
   mathObject.y = num2;
@@ -131,20 +135,13 @@ function mathAtServer(num1, num2, operator){
     url: '/operations/' + operator,
     data: mathObject,
     success: function(response){
-      console.log(response);
+      console.log('serverResponse', response);
+      result = response.result;
+      displayThis(result);
+      x=result; //sets x to result to prepare for operator being clicked to begin new calculations
     },
     error: function(response){
       alert(response.responseText); //for divide by zero errors
-    }
-  });
-
-  $.ajax({
-    type: 'GET',
-    url: '/operations',
-    success: function(data){
-      result = data.result; //this variable might have made more sense if my specific condition case worked out with the server
-      displayThis(result);
-      x = result; //this prepares the calculator for further operations
     }
   });
 }

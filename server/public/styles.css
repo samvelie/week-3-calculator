@@ -1,7 +1,7 @@
 @font-face {
   font-family: Calculator;
+
   src: url('fonts/POCKC.eot?#iefix') format('embedded-opentype'),
-	     url('fonts/POCKC.woff') format('woff'),
 	     url('fonts/POCKC.ttf')  format('truetype'),
 	     url('fonts/POCKC.svg#svgFontName') format('svg');
 }
